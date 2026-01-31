@@ -1,3 +1,4 @@
+<?php require_once "db.php"; ?>
 <!doctype html>
 <html lang="ko">
 
@@ -19,15 +20,25 @@
 
         header nav ul {
             display: flex;
-            gap: 30px;
+            /*gap: 30px;*/
+            list-style-type: none;
+            gap: 10px;
         }
     </style>
     <header>
         <div class="logo">logo</div>
         <nav>
-            <ul>
-                <li>Home</li>
-                <li>About</li>
-            </ul>
+            <?php if (isset($_SESSION['user'])): ?>
+                <ul>
+                    <li>Home</li>
+                    <li>About</li>
+                    <li><?= $_SESSION['user']->name ?></li>
+                    <li><a href="/users/action.php?mode=logout">로그아웃</a></li>
+                </ul>
+            <?php else: ?>
+                <ul>
+                    <li><a href="/users/login.php">로그인</a></li>
+                </ul>
+            <?php endif; ?>
         </nav>
     </header>

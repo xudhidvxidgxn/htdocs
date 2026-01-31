@@ -1,4 +1,4 @@
-<?php require_once "../db.php"; ?>
+
 <?php require_once "../header.php"; ?>
 
 <?php
@@ -17,7 +17,7 @@ $pstmt->execute($params);
 
 $users = $pstmt->fetchAll();
 
-var_dump($users);
+//var_dump($users);
 ?>
 
 <table>
@@ -34,6 +34,11 @@ var_dump($users);
                 <td><?= $user->id ?></td>
                 <td><?= $user->name ?></td>
                 <td><?= $user->userid ?></td>
+                <td>
+                    <a href="/users/action.php?mode=delete&id=<?= $user->id ?>">
+                        삭제
+                    </a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>

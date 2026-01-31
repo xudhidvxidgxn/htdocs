@@ -1,15 +1,70 @@
 <?php
 require_once "../db.php";
 
-$pstmt = $db->prepare("INSERT INTO users (name, userid, password)
-VALUES (:name, :userid, ;password");;
-$pstmt->execute([
-    "name" => $_POST['name'],
-    "userid" => $_POST['userid'],
-    "password" => $_POST['password']
-]);
+$mode = $_POST['mode'] ?? $_GET['mode'] ?? "";
 
-header("Location: /users/list");
+switch ($mode) {
+    case 'create':
+        $pstmt = $db->prepare("INSERT INTO users (name, userid, password) VALUES (:name, :userid, :password)");
+        $pstmt->execute([
+            "name" => $_POST['name'],
+            "userid" => $_POST['userid'],
+            "password" => $_POST['password']
+        ]);
+
+        header("Location: /users/list.php");
+        break;
+
+    case 'update':
+        $pstmt = $db->prepare("UPDATE users set name = :name, password = :password WHERE id = :id");
+        $pstmt->execute([
+            "name" => $_POST['name'],
+            "password" => $_POST['password'],
+            "id" => $_POST['id']
+        ]);
+        header("Location: /users/list.php");
+        break;
+
+    case 'delete':
+        $pstmt = $db->prepare("DELETE FROM users WHERE id = :id");
+        $pstmt->execute([
+            "id" => $_GET['id']
+        ]);
+
+        header("Location: /users/list.php");
+        break;
+
+    case 'login':
+        $pstmt = $db->prepare("SELECT * FROM users WHERE userid = :userid AND password = :password");
+
+        $pstmt->execute([
+            'userid' => $_POST['userid'],
+            'password' => $_POST['password']
+        ]);
+
+        $user = $pstmt->fetch();
+
+        if (!$user) {
+            header("Location: /users/login.php");
+            exit;
+        }
+
+        $_SESSION['user'] = $user;
+
+        header("Location: /users/list.php");
+        exit;
+
+        break;
+
+    case 'logout':
+        unset($_SESSION['user']);
+
+        header("Location: /users/list.php");
+        exit;
+
+        break;
+}
+
 // 
 // $host = 'localhost'; // ip주소
 // 
@@ -25,7 +80,7 @@ header("Location: /users/list");
 // $charset = 'utf8mb4';
 // 
 // // Data Source Name (DB 연결 설정)
-// $dsn = "mysql:host$host;dbname=$dbname;charset=$charset";
+// $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
 // 
 // // PDO 약자: Prepared Data Objects
 // $options = [
