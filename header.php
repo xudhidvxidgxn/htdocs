@@ -8,10 +8,11 @@
     }
     header nav ul {
         display: flex;
+        gap: 30px;
     }
 </style>
 <header>
-    <div class="logo"></div>
+    <div class="logo">logo</div>
     <nav>
         <ul>
             <li>Home</li>
