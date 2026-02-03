@@ -38,6 +38,7 @@
             <?php else: ?>
                 <ul>
                     <li><a href="/users/login.php">로그인</a></li>
+                    <li><a href="/users/create.php">회원가입</a></li>
                 </ul>
             <?php endif; ?>
         </nav>

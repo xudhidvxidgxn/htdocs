@@ -35,6 +35,11 @@ $users = $pstmt->fetchAll();
                 <td><?= $user->name ?></td>
                 <td><?= $user->userid ?></td>
                 <td>
+                    <a href="/users/edit.php?&id=<?= $user->id ?>">
+                        수정
+                    </a>
+                </td>
+                <td>
                     <a href="/users/action.php?mode=delete&id=<?= $user->id ?>">
                         삭제
                     </a>
