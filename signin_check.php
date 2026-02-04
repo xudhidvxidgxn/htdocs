@@ -23,6 +23,7 @@
         <?= htmlspecialchars($pw_check) ?>
     </div>
 
+    
     <?php if ($email && $name && $pw && $pw_check): ?>
         <?php if (!filter_var($email, FILTER_VALIDATE_EMAIL)): ?>
             <div style="color:red;">올바른 이메일 형식이 아닙니다</div>
