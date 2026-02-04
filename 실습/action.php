@@ -77,6 +77,10 @@ switch ($mode) {
         exit;
 
         break;
+    default:
+        header("Location: /users/list.php");
+        exit;
+        break;
 }
 
 // 

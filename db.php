@@ -3,7 +3,7 @@ session_start();
 
 $host = 'localhost'; // ip주소
 
-$dbname = '20260131web';
+$dbname = '4주차_과제'; // DB 이름
 
 // DB 유저 아이디
 $user = 'root';
