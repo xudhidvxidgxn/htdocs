@@ -23,7 +23,7 @@
         <?= htmlspecialchars($pw_check) ?>
     </div>
 
-    
+
     <?php if ($email && $name && $pw && $pw_check): ?>
         <?php if (!filter_var($email, FILTER_VALIDATE_EMAIL)): ?>
             <div style="color:red;">올바른 이메일 형식이 아닙니다</div>
@@ -42,13 +42,30 @@
                 <div style="color:red;">이미 가입된 이메일입니다</div>
             <?php else: ?>
                 <div style="color:green;">통과</div>
-                <?php 
+                <?php
                 $pstmt = $db->prepare('INSERT INTO members (email, name, password) VALUES (:email, :name, :password)');
                 $pstmt->execute([
                     "email" => $email,
                     "name" => $name,
                     "password" => $pw
-                ])
+                ]);
+
+                $pstmt = $db->prepare("SELECT * FROM members WHERE email = :email");
+                $pstmt->execute([
+                    "email" => $email
+                ]);
+                $user = $pstmt->fetch();
+
+                if (!$user) {
+                    header("Location: signin.php");
+                    exit;
+                }
+
+                $_SESSION['userid'] = $user->id;
+                $_SESSION['name'] = $user->name;
+
+                header("Location: index.php");
+                exit;
                 ?>
             <?php endif; ?>
         <?php endif; ?>

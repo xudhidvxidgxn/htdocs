@@ -11,8 +11,7 @@ switch ($mode) {
             "userid" => $_POST['userid'],
             "password" => $_POST['password']
         ]);
-        
-        // 1. 방금 만든 사용자 정보를 SELECT로 조회
+
         $pstmt = $db->prepare("SELECT * FROM users WHERE userid = :userid");
         $pstmt->execute(['userid' => $_POST['userid']]);
         $user = $pstmt->fetch();
